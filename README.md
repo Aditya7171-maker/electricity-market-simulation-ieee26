@@ -1,4 +1,4 @@
-IEEE RTS-24 Electricity Market Simulation
+IEEE RTS-24 Electricity Market Simulation:
 Single Hour Copper-Plate Economic Dispatch using Pyomo
 
 This project implements a single-hour electricity market clearing model using the generator data from the IEEE Reliability Test System.
