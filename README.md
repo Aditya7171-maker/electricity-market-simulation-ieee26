@@ -1,4 +1,4 @@
-IEEE RTS-24 Electricity Market Simulation:
+##IEEE RTS-24 Electricity Market Simulation:
 Single Hour Copper-Plate Economic Dispatch using Pyomo
 
 This project implements a single-hour electricity market clearing model using the generator data from the IEEE Reliability Test System.
@@ -7,7 +7,7 @@ The model determines the least-cost generator dispatch, market clearing price, a
 
 The implementation is written in Python using Pyomo and solved with GLPK.
 
-Power System Dataset
+#Power System Dataset
 
 The generator parameters are based on the dataset described in:
 
@@ -23,7 +23,7 @@ optimal power flow models
 
 congestion analysis
 
-Model Overview
+#Model Overview
 
 The electricity market is modeled as a copper-plate system, meaning:
 
@@ -75,7 +75,7 @@ Bid Price = 100 $/MWh
 
 This represents the maximum willingness to pay for electricity.
 
-Model Outputs
+##Model Outputs
 
 The optimization determines:
 
@@ -140,7 +140,7 @@ Result:
 Social Welfare = $248,781
 Visualizations
 
-The project generates three market analysis plots.
+##The project generates three market analysis plots.
 
 Generator Dispatch
 
@@ -156,7 +156,7 @@ Generator Cost vs Dispatch
 
 Compares generator marginal cost with dispatch level and highlights the market clearing price.
 
-Tools Used
+##Tools Used
 
 Python libraries used:
 
