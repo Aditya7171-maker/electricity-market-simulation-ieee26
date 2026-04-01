@@ -2,28 +2,19 @@ import pyomo.environ as pe
 import pyomo.opt as po
 import matplotlib.pyplot as plt
 import pandas as pd
-# -----------------------
-# SOLVER
-# This selects GLPK, a linear programming solver.
+
 solver = po.SolverFactory('glpk')
 
-# -----------------------
-# MODEL
-# ConcreteModel() - creates the optimization model
-#Suffix - allows you to extract dual variables
+
 model = pe.ConcreteModel()
 model.dual = pe.Suffix(direction=pe.Suffix.IMPORT)
-# -----------------------
-# SETS
-# This defines 13 generators in the system.
+
 model.G = pe.Set(initialize=[
     'U1','U2','U3','U4','U5','U6','U7','U8',
     'U9','U10','U11','U12','Wind'
 ])
 
-# -----------------------
-# PARAMETERS
-# -----------------------
+
 
 # Marginal costs ($/MWh) — use RTS data
 gen_cost = {
@@ -65,43 +56,31 @@ Demand = 2650.5
 model.C = pe.Param(model.G, initialize=gen_cost)
 model.Pmax = pe.Param(model.G, initialize=gen_cap)
 
-# -----------------------
-# VARIABLES
-#This represents how much each generator produces.
+
 model.g = pe.Var(model.G, domain=pe.NonNegativeReals)
 
-# -----------------------
-# OBJECTIVE (Min Cost)
-#The solver tries to meet demand using the cheapest generators first.
+
 def cost_rule(m):
     return sum(m.C[i] * m.g[i] for i in m.G)
 
 model.obj = pe.Objective(rule=cost_rule, sense=pe.minimize)
 
-# -----------------------
-# CONSTRAINTS
-# -----------------------
-
-# Power balance - Total generation must equal system load.
 def balance_rule(m):
     return sum(m.g[i] for i in m.G) == Demand
 
 model.balance = pe.Constraint(rule=balance_rule)
 
-# Generator limits - A generator cannot exceed its capacity.
+
 def gen_limit_rule(m, i):
     return m.g[i] <= m.Pmax[i]
 
 model.gen_limit = pe.Constraint(model.G, rule=gen_limit_rule)
 
-# -----------------------
-# SOLVE
-# This runs the optimization and finds the lowest cost dispatch.
+
 solver.solve(model)
 
-# -----------------------
 # RESULTS
-# -----------------------
+
 
 print("\nDispatch Results")
 for i in model.G:
